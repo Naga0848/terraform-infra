@@ -37,3 +37,15 @@ Below are the total no of resources going to be created from this repo
 ![alt text](images/resources.png)
 
 
+## Steps to be followed after creating these INFRA
+
+    On Jenkins-Agent
+        backend repo -> CI 
+        backend deploy -> CD
+    1. create infra
+    2. EKS setup
+            allow jenkins agent sg in eks control plane (Manually go to EKS security groups > edit > inbound > https > no pasthe the SG of Jenkins Agent(EC2) and save it.)
+            create namespace (kubectl create ns roboshop)
+            create DB pods
+	        mongodb redis mysql rabbitmq
+    3. we can deploy applications
