@@ -33,6 +33,7 @@
 
 ![alt text](images/readme.png)
 
+Below are the total no of resources going to be created from this repo
 ![alt text](images/resources.png)
 
 
