@@ -33,4 +33,6 @@
 
 ![alt text](images/readme.png)
 
+![alt text](images/resources.png)
+
 
