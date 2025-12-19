@@ -17,25 +17,25 @@
 
 ## Commands to install the resources
 
-    for i in 80-eks 70-frontend-alb 60-acm 20-bastion 30-ecr 10-sg 00-vpc; do
+    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
         cd $i
         terraform init
         cd ..
     done
 
-    for i in 80-eks 70-frontend-alb 60-acm 20-bastion 30-ecr 10-sg 00-vpc; do
+    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
         cd $i
         terraform plan
         cd ..
     done
 
-    for i in 80-eks 70-frontend-alb 60-acm 20-bastion 30-ecr 10-sg 00-vpc; do
+    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
         cd $i
         terraform apply -auto-approve
         cd ..
     done
 
-    for i in 80-eks 70-frontend-alb 60-acm 20-bastion 30-ecr 10-sg 00-vpc; do
+    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
         cd $i
         terraform destroy -auto-approve
         cd ..
