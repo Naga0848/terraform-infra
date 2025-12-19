@@ -1,5 +1,18 @@
 ## Terraform AWS EKS Infrastructure
 
+    Here the resources depends on eachother while they are getting created.
+
+    Here, 
+        SG is dependent on VPC
+        ALB is dependent on SG and 
+        Bastion, EKS and ACM are independent, so then can be created parllelly.
+
+    This dependency is maintained while we are creating the infra using the Jenkins pipelines.
+    Even if we are creating manually via terraform, make sure VPC is created first and then proceed with the other services.
+
+![alt text](images/upstream-downstream.png)
+
+
 ## Commands to install the resources
 
     for i in 80-eks 70-frontend-alb 60-acm 20-bastion 30-ecr 10-sg 00-vpc; do
