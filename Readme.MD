@@ -33,7 +33,33 @@
     This repository provisions a complete AWS infrastructure using modular Terraform components. It is designed for scalability, reusability, and clarity, following best practices for infrastructure-as-code. Each module represents a distinct component of the architecture and can be applied independently or orchestrated via CI/CD pipelines.
 
 ![alt text](images/module-overview.png)
+## Module Overview
 
+    | First Header  | Second Header |
+    | ------------- | ------------- |
+    | Content Cell  | Content Cell  |
+    | Content Cell  | Content Cell  |
+## Module Structure
+
+    Each module typically contains:
+
+    main.tf: Core resource definitions
+
+    variables.tf: Input parameters with types and descriptions
+
+    outputs.tf: Exported values for inter-module communication
+
+    provider.tf: AWS provider configuration
+
+    parameters.tf: Optional parameter mappings
+
+    locals.tf: Local variables and computed values
+
+    data.tf: Data sources (e.g., AMIs, availability zones)
+
+
+
+Jenkinsfile: CI/CD pipeline logic (if applicable)
 ![alt text](images/readme.png)
 
 Below are the total no of resources going to be created from this repo for 00-vpc
