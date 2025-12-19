@@ -10,6 +10,8 @@
     This dependency is maintained while we are creating the infra using the Jenkins pipelines.
     Even if we are creating manually via terraform, make sure VPC is created first and then proceed with the other services.
 
+    Look at the below image, to understand about upstream-downstream
+
 ![alt text](images/upstream-downstream.png)
 
 
