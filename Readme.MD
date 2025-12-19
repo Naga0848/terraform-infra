@@ -17,39 +17,36 @@
 
 ## Commands to install the resources
 
-    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
-        cd $i
-        terraform init
-        cd ..
-    done
+    For creating the resources, we need to manually go in to all the folders (00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks) and perform the necessary commands like terraform init, terraform plan, terraform apply -auto-approve
 
-    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
-        cd $i
-        terraform plan
-        cd ..
-    done
+    But, while deleting, we delete them in a single go by using the below command
 
-    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
-        cd $i
-        terraform apply -auto-approve
-        cd ..
-    done
-
-    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks; do
+    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend-alb 80-eks; do
         cd $i
         terraform destroy -auto-approve
         cd ..
     done
 
-
+    But make sure, every resource is deleted properly. Check in the AWS console.
+    
+    
     This repository provisions a complete AWS infrastructure using modular Terraform components. It is designed for scalability, reusability, and clarity, following best practices for infrastructure-as-code. Each module represents a distinct component of the architecture and can be applied independently or orchestrated via CI/CD pipelines.
 
 ![alt text](images/module-overview.png)
 
 ![alt text](images/readme.png)
 
-Below are the total no of resources going to be created from this repo
-![alt text](images/resources.png)
+Below are the total no of resources going to be created from this repo for 00-vpc
+![alt text](images/00-vpc-resources.png)
+
+Below are the total no of resources going to be created from this repo for 10-sg
+![alt text](images/10-SG-services.png)
+
+
+Below are the total no of resources going to be created from this repo for 70-frontend-alb
+![alt text](images/70-frontend-alb.png)
+
+
 
 
 ## Steps to be followed after creating these INFRA
