@@ -6,6 +6,7 @@ module "eks" {
   kubernetes_version = "1.33"
 
   addons = {
+    aws-ebs-csi-driver = {}
     coredns                = {}
     eks-pod-identity-agent = {
       before_compute = true
