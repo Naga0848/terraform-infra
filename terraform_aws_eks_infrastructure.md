@@ -140,7 +140,7 @@ ACM certificate ARN from SSM.
 VPC ID from SSM.
 
 
-## 70-ecr
+## 30-ecr
 
 Resources Created:
 ECR repositories:
