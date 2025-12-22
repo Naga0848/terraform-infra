@@ -61,3 +61,9 @@ Below are the total no of resources going to be created from this repo for 70-fr
             create DB pods
 	        mongodb redis mysql rabbitmq
     3. we can deploy applications
+
+
+    aws configure
+    provide the accesskey and secretkey
+    aws eks update-kubeconfig --region us-east-1 --name roboshop-dev
+    kubectl get nodes
