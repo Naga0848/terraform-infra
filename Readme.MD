@@ -67,3 +67,90 @@ Below are the total no of resources going to be created from this repo for 70-fr
     provide the accesskey and secretkey
     aws eks update-kubeconfig --region us-east-1 --name roboshop-dev
     kubectl get nodes
+
+
+
+
+========================
+
+This is the readme.md from grok
+
+# AWS Infrastructure Setup with Terraform
+
+This project sets up a secure AWS environment for running web apps on Kubernetes (EKS). It's 
+like building a cloud house: network, security, servers, and app managers.
+
+## Prerequisites (Do These Manually First)
+Before running anything, set up these in the AWS Console or your computer. Think of them as 
+gathering ingredients.
+
+1. **AWS Account and CLI**:
+   - Sign up for AWS if you haven't.
+   - Install AWS CLI and Terraform on your computer.
+   - Run `aws configure` to add your access keys.
+
+2. **Route53 Hosted Zone**:
+   - Go to AWS Console > Route53 > Hosted Zones > Create Hosted Zone.
+   - Enter your domain (e.g., daws84s.site).
+   - Copy the "Hosted Zone ID" and add to `terraform.tfvars` as `zone_id = "YOUR_ID"`.
+
+3. **IAM Role for Bastion**:
+   - AWS Console > IAM > Roles > Create Role.
+   - Trust entity: EC2.
+   - Attach policies: AdministratorAccess (or what you need).
+   - Name: "TerraformAdmin".
+
+4. **AMI ID**:
+   - AWS Console > EC2 > AMIs > Search for "Amazon Linux 2023".
+   - Copy an AMI ID (e.g., ami-12345678) and add to locals or variables.
+
+5. **Files**:
+   - Create `bastion.sh`: A simple script like `#!/bin/bash echo "Setting up bastion"`.
+   - Create `iam-policy.json`: Copy ALB controller policy from AWS docs (search 
+"AWSLoadBalancerControllerIAMPolicy").
+
+6. **Variables File**:
+   - Create `terraform.tfvars` in each folder (or root).
+   - Example:
+
+    project = "roboshop"
+    environment = "dev"
+    zone_name = "daws84s.site"
+    zone_id = "YOUR_ZONE_ID"
+    public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
+    private_subnet_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
+    database_subnet_cidrs = ["10.0.5.0/24", "10.0.6.0/24"]
+    images = ["frontend", "backend"]  # For ECR
+    bastion_sg_name = "bastion"
+    bastion_sg_description = "For bastion host"
+
+
+## Steps to Create Resources
+Run these in order, one folder at a time. Each folder is like a chapter. In each folder, open
+terminal and run:
+
+1. `terraform init` (Downloads helpers).
+2. `terraform validate` (Checks for errors).
+3. `terraform plan` (Shows what will be built – review it!).
+4. `terraform apply` (Builds it – type "yes" to confirm).
+
+**Order of Folders**:
+1. **vpc**: Builds the network base.
+2. **10-sg**: Adds security rules.
+3. **20-bastion**: Launches the jump server.
+4. **30-ecr**: Sets up image storage.
+5. **40-iam**: Adds permissions.
+6. **60-acm**: Gets HTTPS certificates (wait 5-10 mins for validation).
+7. **70-frontend-alb**: Sets up web traffic handler.
+8. **80-eks**: Builds the app cluster (this takes longest, 10-15 mins).
+
+## Cleanup
+If you want to delete everything: In each folder (reverse order), run `terraform destroy` (ty
+"yes").
+
+## Tips
+- If something fails, check error messages – often missing variables or manual setups.
+- Costs: This creates real AWS stuff, so watch your bill! Free tier might cover basics.
+- Questions? Search "Terraform AWS [error]" on Google.
+
+Happy building!
