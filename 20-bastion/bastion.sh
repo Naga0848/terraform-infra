@@ -11,6 +11,13 @@ lvextend -L +10G /dev/RootVG/homeVol
 xfs_growfs /
 xfs_growfs /home
 
+# Install or update AWS CLI v2
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install --update
+rm -rf aws awscliv2.zip
+
+
 dnf -y install dnf-plugins-core
 dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
@@ -24,9 +31,9 @@ curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$
 tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 install -m 0755 /tmp/eksctl /usr/local/bin && rm /tmp/eksctl
 
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/amd64/kubectl
-chmod +x ./kubectl
-mv kubectl /usr/local/bin/kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
 
 eksctl version
 kubectl version
