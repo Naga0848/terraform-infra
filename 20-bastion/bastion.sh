@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e  # Exit on any error
+
 # Expand root and home volumes (as in original)
 growpart /dev/nvme0n1 4
 lvextend -L +20G /dev/RootVG/rootVol
@@ -42,6 +44,47 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 rm get_helm.sh
 
+# Add Bitnami Helm repository
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+# Create namespace if not exists
+kubectl create namespace roboshop --dry-run=client -o yaml | kubectl apply -f -
+
+# Deploy MongoDB
+helm upgrade --install mongodb bitnami/mongodb \
+  --namespace roboshop \
+  --set auth.enabled=false \
+  --set persistence.size=10Gi \
+  --wait
+
+# Deploy Redis
+helm upgrade --install redis bitnami/redis \
+  --namespace roboshop \
+  --set auth.enabled=false \
+  --set architecture=standalone \
+  --set master.persistence.size=10Gi \
+  --wait
+
+# Deploy MySQL
+helm upgrade --install mysql bitnami/mysql \
+  --namespace roboshop \
+  --set auth.rootPassword=roboshop123 \
+  --set auth.database=roboshop \
+  --set primary.persistence.size=10Gi \
+  --wait
+
+# Deploy RabbitMQ
+helm upgrade --install rabbitmq bitnami/rabbitmq \
+  --namespace roboshop \
+  --set auth.username=roboshop \
+  --set auth.password=roboshop123 \
+  --set persistence.size=10Gi \
+  --wait
+
+echo "All databases deployed successfully in roboshop namespace!"
+
 # Optional: kubectx/kubens for context switching
 git clone https://github.com/ahmetb/kubectx /opt/kubectx
 ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+
