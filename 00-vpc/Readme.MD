@@ -126,7 +126,7 @@ Add this to your 40-iam/main.tf (or wherever the role is defined):
 
 Run terraform apply in 40-iam. This ensures every bastion has EKS describe permissions from day one (avoids manual CLI attachment).
 
-## 2. Improved bastion.sh (in 20-bastion)
+2. Improved bastion.sh (in 20-bastion)
 
     Update your bastion.sh with these enhancements for up-to-date tools and AWS CLI v2:
 
