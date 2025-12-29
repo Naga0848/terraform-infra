@@ -7,6 +7,8 @@ lvextend -L +10G /dev/RootVG/homeVol
 xfs_growfs /
 xfs_growfs /home
 
+terraform import aws_iam_role.bastion_role TerraformAdmin
+
 # Install Docker
 dnf -y install dnf-plugins-core
 dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
