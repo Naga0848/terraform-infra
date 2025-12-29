@@ -199,7 +199,62 @@ Deploy microservices (frontend, catalogue, user, cart, etc.) with Helm/charts.
 
 
 
+## Below is the script to install databases via bastion.sh 
+#!/bin/bash
 
+set -e  # Exit on any error
+
+# Update system
+sudo yum update -y
+
+# Install kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+
+# Install Helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+helm version
+
+# Add Bitnami Helm repository
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+# Create namespace if not exists
+kubectl create namespace roboshop --dry-run=client -o yaml | kubectl apply -f -
+
+# Deploy MongoDB
+helm upgrade --install mongodb bitnami/mongodb \
+  --namespace roboshop \
+  --set auth.enabled=false \
+  --set persistence.size=10Gi \
+  --wait
+
+# Deploy Redis
+helm upgrade --install redis bitnami/redis \
+  --namespace roboshop \
+  --set auth.enabled=false \
+  --set architecture=standalone \
+  --set master.persistence.size=10Gi \
+  --wait
+
+# Deploy MySQL
+helm upgrade --install mysql bitnami/mysql \
+  --namespace roboshop \
+  --set auth.rootPassword=roboshop123 \
+  --set auth.database=roboshop \
+  --set primary.persistence.size=10Gi \
+  --wait
+
+# Deploy RabbitMQ
+helm upgrade --install rabbitmq bitnami/rabbitmq \
+  --namespace roboshop \
+  --set auth.username=roboshop \
+  --set auth.password=roboshop123 \
+  --set persistence.size=10Gi \
+  --wait
+
+echo "All databases deployed successfully in roboshop namespace!"
 
 
 
