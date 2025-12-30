@@ -204,7 +204,7 @@ Deploy microservices (frontend, catalogue, user, cart, etc.) with Helm/charts.
 
 
 
-## Below is the script to install databases via bastion.sh 
+## Below is the script to install databases via bastion.sh (already these are installed)
 #!/bin/bash
 
 set -e  # Exit on any error
@@ -271,9 +271,21 @@ echo "All databases deployed successfully in roboshop namespace!"
   kubectl version --client
   helm version
   eksctl version
+  docker --version
 
 
+## SonarQube Installation
 
+  use the Docker >> docker-eks-via-terraform (docker.sh) repo to create a instance with dokcer and loginto the dockerhub from the same instance
+
+  docker login -u nagashankar1992332
+  password: Naga@1992
+
+  ![alt text](images/sonar-on-docker.png)
+
+  sudo docker run -d --name sonarqube -p 9000:9000 sonarqube:community   >> command to launch sonarqube via docker
+
+  publicIP:9090  in the browser to see the sonarqube and continue with the remaining Jenkins steps
 
 
 
