@@ -70,7 +70,20 @@ resource "aws_instance" "bastion" {
     }
   )
 }
+resource "aws_iam_role" "terraform_admin_role" {
+  name = "TerraformAdmin"
 
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+  })
+}
 # For control plane operations (describe, list, update-kubeconfig, etc.)
 resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   role       = aws_iam_role.terraform_admin_role.name
