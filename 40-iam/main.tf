@@ -1,22 +1,22 @@
 
 # This must exist
-resource "aws_iam_role" "terraform_admin" {
-  name = "TerraformAdmin"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      }
-    ]
-  })
-}
-
+# resource "aws_iam_role" "terraform_admin" {
+  # name = "TerraformAdmin"
+# 
+  # assume_role_policy = jsonencode({
+    # Version = "2012-10-17"
+    # Statement = [
+      # {
+        # Action = "sts:AssumeRole"
+        # Effect = "Allow"
+        # Principal = {
+          # Service = "ec2.amazonaws.com"
+        # }
+      # }
+    # ]
+  # })
+# }
+# 
 
 # Optional: Policy for AWS Load Balancer Controller (keep if using ALB Ingress)
 # resource "aws_iam_policy" "alb_controller" {
