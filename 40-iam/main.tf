@@ -1,9 +1,12 @@
-resource "aws_iam_policy" "alb" {
+
+# Optional: Policy for AWS Load Balancer Controller (keep if using ALB Ingress)
+resource "aws_iam_policy" "alb_controller" {
   name        = "AWSLoadBalancerControllerIAMPolicy"
-  description = "ALB Controller permissions"
+  description = "Permissions required by AWS Load Balancer Controller"
   policy      = file("${path.module}/iam-policy.json")
 }
-# This must exist
+
+# IAM Role that the bastion host will assume
 resource "aws_iam_role" "terraform_admin" {
   name = "TerraformAdmin"
 
@@ -11,30 +14,40 @@ resource "aws_iam_role" "terraform_admin" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
         Principal = {
           Service = "ec2.amazonaws.com"
         }
       }
     ]
   })
+
+  tags = {
+    Name = "TerraformAdmin"
+  }
 }
 
-# Add this new attachment
-resource "aws_iam_role_policy_attachment" "terraform_admin_eks_cluster" { // IAM Role for Bastion/EKS Access
-  role       = aws_iam_role.terraform_admin.name   # This refers to the role above
+# SSM access - enables secure login via AWS Session Manager (no SSH keys or open ports needed)
+resource "aws_iam_role_policy_attachment" "ssm_core" {
+  role       = aws_iam_role.terraform_admin.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+# EKS Cluster access - required for 'aws eks update-kubeconfig', describe, list, etc.
+resource "aws_iam_role_policy_attachment" "eks_cluster" {
+  role       = aws_iam_role.terraform_admin.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
 
-# For control plane operations (describe, list, update-kubeconfig, etc.)
-resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
-  role       = aws_iam_role.terraform_admin_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-}
-
-# For worker node / general EKS operations from tools like kubectl
-resource "aws_iam_role_policy_attachment" "eks_worker_policy" {
-  role       = aws_iam_role.terraform_admin_role.name
+# EKS Worker/Node access - required for full kubectl functionality
+resource "aws_iam_role_policy_attachment" "eks_worker" {
+  role       = aws_iam_role.terraform_admin.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+}
+
+# Instance Profile - this is attached to the bastion EC2 instance
+resource "aws_iam_instance_profile" "bastion_profile" {
+  name = "bastion-profile"
+  role = aws_iam_role.terraform_admin.name
 }
