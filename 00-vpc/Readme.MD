@@ -15,7 +15,7 @@
 ![alt text](images/upstream-downstream.png)
 
 
-## Commands to install the resources
+## Commands to install & delete the resources
 
     For creating the resources, we need to manually go in to all the folders (00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend 80-eks) and perform the necessary commands like terraform init, terraform plan, terraform apply -auto-approve
 
@@ -281,7 +281,7 @@ echo "All databases deployed successfully in roboshop namespace!"
   docker login -u nagashankar1992332   >> command
   prompts for a password, so give the below password
 
-  
+
   password: Naga@1992
 
   ![alt text](images/sonar-on-docker.png)
