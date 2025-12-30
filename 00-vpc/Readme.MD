@@ -278,7 +278,8 @@ echo "All databases deployed successfully in roboshop namespace!"
 
   use the Docker >> docker-eks-via-terraform (docker.sh) repo to create a instance with dokcer and loginto the dockerhub from the same instance
 
-  docker login -u nagashankar1992332
+  docker login -u nagashankar1992332   >> command
+  prompts for a password, so give the below password
   password: Naga@1992
 
   ![alt text](images/sonar-on-docker.png)
