@@ -26,3 +26,15 @@ resource "aws_iam_role_policy_attachment" "terraform_admin_eks_cluster" { // IAM
   role       = aws_iam_role.terraform_admin.name   # This refers to the role above
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
+
+# For control plane operations (describe, list, update-kubeconfig, etc.)
+resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
+  role       = aws_iam_role.terraform_admin_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
+# For worker node / general EKS operations from tools like kubectl
+resource "aws_iam_role_policy_attachment" "eks_worker_policy" {
+  role       = aws_iam_role.terraform_admin_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+}
