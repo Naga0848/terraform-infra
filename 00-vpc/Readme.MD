@@ -280,6 +280,8 @@ echo "All databases deployed successfully in roboshop namespace!"
 
   docker login -u nagashankar1992332   >> command
   prompts for a password, so give the below password
+
+  
   password: Naga@1992
 
   ![alt text](images/sonar-on-docker.png)
