@@ -21,7 +21,7 @@
 
     But, while deleting, we delete them in a single go by using the below command
 
-    for i in 00-vpc 10-sg 20-bastion 30-ecr 60-acm 70-frontend-alb 80-eks; do
+    for i in 80-eks 70-frontend-alb 60-acm 20-bastion 10-sg 00-vpc ; do
         cd $i
         terraform destroy -auto-approve
         cd ..
