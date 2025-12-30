@@ -1,10 +1,29 @@
 
-# Optional: Policy for AWS Load Balancer Controller (keep if using ALB Ingress)
-resource "aws_iam_policy" "alb_controller" {
-  name        = "AWSLoadBalancerControllerIAMPolicy"
-  description = "Permissions required by AWS Load Balancer Controller"
-  policy      = file("${path.module}/iam-policy.json")
+# This must exist
+resource "aws_iam_role" "terraform_admin" {
+  name = "TerraformAdmin"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
 }
+
+
+# Optional: Policy for AWS Load Balancer Controller (keep if using ALB Ingress)
+# resource "aws_iam_policy" "alb_controller" {
+  # name        = "AWSLoadBalancerControllerIAMPolicy"
+  # description = "Permissions required by AWS Load Balancer Controller"
+  # policy      = file("${path.module}/iam-policy.json")
+# }
 
 # IAM Role that the bastion host will assume
 resource "aws_iam_role" "terraform_admin" {
