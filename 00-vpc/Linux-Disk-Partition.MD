@@ -6,6 +6,8 @@
     xfs_growfs / || true
     xfs_growfs /home || true
 
+The below image shows the output of the lsbk command on a linux machine
+
  ![alt text](images/disk-partition.png)
  
     This sequence of commands is a safe script commonly used on Linux systems (especially cloud instances like AWS EC2 with NVMe disks) to expand disk space after you've increased the underlying block storage volume size (e.g., from the cloud provider console).
