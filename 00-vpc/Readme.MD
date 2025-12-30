@@ -184,7 +184,12 @@ After creating the bastion and EKS:
 SSH into bastion: ssh -i <key.pem> ec2-user@<bastion-public-ip>
 Verify role: aws sts get-caller-identity (should show TerraformAdmin role)
 Generate kubeconfig: aws eks update-kubeconfig --region us-east-1 --name roboshop-dev
-Test: kubectl get nodes
+Test: the versions
+kubectl get nodes
+kubectl version --client
+helm version
+eksctl version
+aws --version
 
 Never run aws configure with static keys on the bastion (it overrides role credentials).
 Cleanup old creds if present: rm -f ~/.aws/credentials ~/.aws/config
@@ -258,12 +263,14 @@ echo "All databases deployed successfully in roboshop namespace!"
 
 
 
+## Bastion Host Verifications
 
-
-
-
-
-
+  source ~/.bashrc
+  
+  aws --version
+  kubectl version --client
+  helm version
+  eksctl version
 
 
 
