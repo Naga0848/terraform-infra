@@ -273,6 +273,12 @@ echo "All databases deployed successfully in roboshop namespace!"
   eksctl version
   docker --version
 
+  aws configure
+      provide the required Access key ID,Secret access key
+
+  aws eks update-kubeconfig --region us-east-1 --name roboshop-dev
+  kubectl get nodes
+
 
 ## SonarQube Installation
 
